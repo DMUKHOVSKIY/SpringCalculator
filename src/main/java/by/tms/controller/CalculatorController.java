@@ -24,6 +24,8 @@ public class CalculatorController {
 
     @PostMapping("/calculator")
     public ModelAndView calc(Operation operation, ModelAndView model){
+        if(operation.getNum2() == 0 && operation.getOperation().equals("div"))
+            throw new RuntimeException();
         model.addObject("result",calculatorService.calculate(operation));
         model.setViewName("calc");
         return model;
