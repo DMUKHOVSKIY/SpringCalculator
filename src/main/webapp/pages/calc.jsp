@@ -9,7 +9,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-5">
-            <form action="/program/calculator" method="post">
+            <form action="/calculator/calc" method="post">
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Number1</label>
                     <input type="number" name="num1" class="form-control" id="exampleInputEmail1" required>

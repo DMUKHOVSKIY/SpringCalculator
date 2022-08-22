@@ -7,7 +7,7 @@
 </head>
 <body>
 <jsp:include page="../_header.jsp"/>
-<s:form action="/user/registration" method="post" modelAttribute="newUser">
+<s:form action="/user/reg" method="post" modelAttribute="newUser">
     <div class="form-floating mb-3">
         <s:input type="text" path="name" class="form-control" id="floatingInputGroup1" placeholder="name"/>
         <s:errors path="name"/>
@@ -25,5 +25,8 @@
     </div>
     <button type="submit" class="btn btn-primary w-100">Submit</button>
 </s:form>
+<form>
+    <c:if test="${isExist}">User with this username is already exist</c:if>
+</form>
 </body>
 </html>

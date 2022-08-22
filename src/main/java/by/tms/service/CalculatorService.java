@@ -1,26 +1,14 @@
 package by.tms.service;
 
 import by.tms.entity.Operation;
-import org.springframework.stereotype.Service;
+import by.tms.entity.User;
 
-@Service
-public class CalculatorService {
+import java.util.List;
+import java.util.Optional;
 
-    public double calculate(Operation operation) {
-        switch (operation.getOperation()) {
-            case "sum": {
-                return operation.getNum1() + operation.getNum2();
-            }
-            case "diff": {
-                return operation.getNum1() - operation.getNum2();
-            }
-            case "mul": {
-                return operation.getNum1() * operation.getNum2();
-            }
-            case "div": {
-                return operation.getNum1() / operation.getNum2();
-            }
-        }
-        return 0;
-    }
+public interface CalculatorService {
+    Optional<Operation> calculate(Operation operation, User user);
+
+    List<Operation> findAllOperationByUsername(String username);
 }
+
