@@ -1,5 +1,6 @@
 package by.tms.dao;
 
+import by.tms.entity.Telephone;
 import by.tms.entity.User;
 
 import java.util.Optional;
@@ -9,9 +10,10 @@ public interface UserDao<T> {
 
     public Optional<T> findByUsername(String username);
 
-    void updateName (User user);
-    void updatePassword (User user);
+    void updateUser(User user);
 
     void delete(User user);
+
+    void deleteNumber(Telephone telephone);
 
 }

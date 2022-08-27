@@ -7,7 +7,7 @@
 </head>
 <body>
 <jsp:include page="../_header.jsp"/>
-<p><b>Name: ${currentUser}</b></p>
+<p><b>Name: ${currentUser.name}</b></p>
 <c:if test="${! empty operations}">
     <c:forEach items="${operations}" var="operation">
         <li class="list-group-item">${operation}</li>

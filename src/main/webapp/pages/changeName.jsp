@@ -7,8 +7,8 @@
 </head>
 <body>
 <jsp:include page="../_header.jsp"/>
-<p><b>Name: ${currentUser}</b></p>
-<form action="/user/changeName" method="post">
+<p><b>Name: ${currentUser.name}</b></p>
+<form action="/account/changeName" method="post">
     <input type="text" name="name" placeholder="Name">
     <br>
     <button>Submit</button>

@@ -1,8 +1,11 @@
 package by.tms.controller;
 
+import by.tms.entity.Address;
+import by.tms.entity.Telephone;
 import by.tms.entity.User;
 import by.tms.model.LoginUserModel;
 import by.tms.model.PasswordModel;
+import by.tms.model.RegistrationModel;
 import by.tms.service.ChangeService;
 import by.tms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,32 +16,40 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
-@Autowired
-private UserService userService;
-
     @Autowired
-    private ChangeService changeService;
+    private UserService userService;
 
     @GetMapping("/reg")
     public String registrationForm(Model model) {
-        model.addAttribute("newUser", new User());
+        model.addAttribute("newUser", new RegistrationModel());
         return "reg";
     }
 
     @PostMapping("/reg")
-    public String registration(@Valid @ModelAttribute("newUser") User user, BindingResult bindingResult, Model model) {
+    public String registration(@Valid @ModelAttribute("newUser") RegistrationModel u, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "reg";
         }
+        User user = new User();
+        List<Telephone> telephones = new ArrayList<>();
+        telephones.add(new Telephone(0, u.getNumberA1()));
+        telephones.add(new Telephone(0, u.getNumberMTC()));
+        telephones.add(new Telephone(0, u.getNumberLife()));
+        user.setName(u.getName());
+        user.setUsername(u.getUsername());
+        user.setPassword(u.getPassword());
+        user.setAddress(new Address(0, u.getCity(), u.getStreet()));
+        user.setTelephones(telephones);
         if (!userService.save(user)) {
             model.addAttribute("isExist", true);
             return "reg";
@@ -79,60 +90,4 @@ private UserService userService;
         httpSession.invalidate();
         return "redirect:/";
     }
-
-    @GetMapping("/account")
-    public String account() {
-        return "account";
-    }
-
-    @GetMapping("/changeName")
-    public String changeNameForm() {
-        return "changeName";
-    }
-
-    @PostMapping("/changeName")
-    public String changeName(String name, HttpSession session) {
-        if (!name.isEmpty() && !name.isBlank()) {
-            changeService.changeName(name, (User) session.getAttribute("currentUser"));
-        }
-        return "account";
-    }
-
-    @GetMapping("/changePassword")
-    public String changePasswordForm(Model model) {
-        model.addAttribute("passwordModel", new PasswordModel());
-        return "changePassword";
-    }
-
-    @PostMapping("/changePassword")
-    public String changePassword(@Valid @ModelAttribute("passwordModel") PasswordModel passwordModel, BindingResult bindingResult, Model model, HttpSession session) {
-        if (bindingResult.hasErrors()) {
-            return "changePassword";
-        }
-
-        User user = (User) session.getAttribute("currentUser");
-        if (!(passwordModel.getOldPassword().equals(user.getPassword()))) {
-            model.addAttribute("messagePassword", "Incorrect old password");
-            return "changePassword";
-        }
-
-        changeService.changePassword(passwordModel.getNewPassword(), user);
-        model.addAttribute("messagePassword", "Password has changed");
-        return "changePassword";
-    }
-
-    @GetMapping("/deleteUser")
-    public String deleteUser(HttpSession session){
-        changeService.deleteUser((User) session.getAttribute("currentUser"));
-        session.invalidate();
-        return "redirect:/";
-    }
-
-
-    @GetMapping("/deleteOperation")
-    public String deleteOperation(HttpSession session){
-        changeService.deleteOperation((User)session.getAttribute("currentUser"));
-        return "account";
-    }
-
 }

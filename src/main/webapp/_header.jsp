@@ -39,7 +39,7 @@
                         <a class="nav-link active" href="/calculator/calc">Calculator</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/user/account">Account</a>
+                        <a class="nav-link active" href="/account">Account</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="/user/logout">Logout</a>

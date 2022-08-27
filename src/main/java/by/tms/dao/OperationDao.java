@@ -1,6 +1,7 @@
 package by.tms.dao;
 
 import by.tms.entity.User;
+import org.hibernate.Session;
 
 import java.util.List;
 

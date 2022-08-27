@@ -6,31 +6,36 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
-@Data
 @Entity
+@Data
 @Table(name = "hibernateUsers")
 public class User {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NotNull
-    @NotBlank
-    @NotEmpty
+
     private String name;
-    @NotNull
-    @NotBlank
-    @NotEmpty
+
     private String username;
-    @NotNull
-    @NotBlank
-    @NotEmpty
+
     private String password;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Telephone> telephones;
 
     @Override
     public String toString() {
-        return name;
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
+                ", address=" + address +
+                ", telephones=" + telephones +
+                '}';
     }
 }
 

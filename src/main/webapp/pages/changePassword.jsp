@@ -7,8 +7,8 @@
 </head>
 <body>
 <jsp:include page="../_header.jsp"/>
-<p><b>Name: ${currentUser}</b></p>
-<s:form action="/user/changePassword" method="post" modelAttribute="passwordModel">
+<p><b>Name: ${currentUser.name}</b></p>
+<s:form action="/account/changePassword" method="post" modelAttribute="passwordModel">
     <s:input type="text" path="oldPassword" class="form-control" id="floatingInputGroup" placeholder="Old Password"/>
     <s:errors path="oldPassword"/>
     <br>

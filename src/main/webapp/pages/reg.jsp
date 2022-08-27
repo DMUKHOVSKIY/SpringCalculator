@@ -18,10 +18,35 @@
         <s:errors path="username"/>
         <label for="floatingInputGroup2">Username</label>
     </div>
-    <div class="form-floating">
+    <div class="form-floating mb-3">
         <s:input type="password" path="password" class="form-control" id="floatingPassword" placeholder="Password"/>
         <s:errors path="password"/>
         <label for="floatingPassword">Password</label>
+    </div>
+    <div class="form-floating mb-3">
+        <s:input type="text" path="city" class="form-control" id="floatingInputGroup3" placeholder="City"/>
+        <s:errors path="city"/>
+        <label for="floatingInputGroup3">City</label>
+    </div>
+    <div class="form-floating mb-3">
+        <s:input type="text" path="street" class="form-control" id="floatingInputGroup4" placeholder="Street"/>
+        <s:errors path="street"/>
+        <label for="floatingInputGroup4">Street</label>
+    </div>
+    <div class="form-floating mb-3">
+        <s:input type="text" path="numberA1" class="form-control" id="floatingInputGroup5" placeholder="NumberA1"/>
+        <s:errors path="numberA1"/>
+        <label for="floatingInputGroup5">NumberA1</label>
+    </div>
+    <div class="form-floating mb-3">
+        <s:input type="text" path="numberMTC" class="form-control" id="floatingInputGroup6" placeholder="NumberMTC"/>
+        <s:errors path="numberMTC"/>
+        <label for="floatingInputGroup6">NumberMTC</label>
+    </div>
+    <div class="form-floating mb-3">
+        <s:input type="text" path="numberLife" class="form-control" id="floatingInputGroup7" placeholder="NumberLife"/>
+        <s:errors path="numberLife"/>
+        <label for="floatingInputGroup7">NumberLife</label>
     </div>
     <button type="submit" class="btn btn-primary w-100">Submit</button>
 </s:form>
