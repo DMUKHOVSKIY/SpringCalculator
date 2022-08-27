@@ -1,5 +1,6 @@
 package by.tms.controller;
 
+import by.tms.converter.Converter;
 import by.tms.entity.Address;
 import by.tms.entity.Telephone;
 import by.tms.entity.User;
@@ -29,6 +30,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private Converter converter;
+
     @GetMapping("/reg")
     public String registrationForm(Model model) {
         model.addAttribute("newUser", new RegistrationModel());
@@ -36,21 +40,11 @@ public class UserController {
     }
 
     @PostMapping("/reg")
-    public String registration(@Valid @ModelAttribute("newUser") RegistrationModel u, BindingResult bindingResult, Model model) {
+    public String registration(@Valid @ModelAttribute("newUser") RegistrationModel user, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "reg";
         }
-        User user = new User();
-        List<Telephone> telephones = new ArrayList<>();
-        telephones.add(new Telephone(0, u.getNumberA1()));
-        telephones.add(new Telephone(0, u.getNumberMTC()));
-        telephones.add(new Telephone(0, u.getNumberLife()));
-        user.setName(u.getName());
-        user.setUsername(u.getUsername());
-        user.setPassword(u.getPassword());
-        user.setAddress(new Address(0, u.getCity(), u.getStreet()));
-        user.setTelephones(telephones);
-        if (!userService.save(user)) {
+        if (!userService.save(converter.convertModelToUser(user))) {
             model.addAttribute("isExist", true);
             return "reg";
         }
