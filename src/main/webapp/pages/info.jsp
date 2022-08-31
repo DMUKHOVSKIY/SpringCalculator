@@ -6,6 +6,6 @@
 </head>
 <body>
 <jsp:include page="../_header.jsp"/>
-<p>${currentUser}</p>
+<p>${userInfo}</p>
 </body>
 </html>

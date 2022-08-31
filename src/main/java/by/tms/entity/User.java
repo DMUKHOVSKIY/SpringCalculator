@@ -3,14 +3,12 @@ package by.tms.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
 @Data
 @Table(name = "hibernateUsers")
+@NamedQuery(name = "User.findByUsername", query = "select u from User u where u.username = :username")
 public class User {
 
     @Id

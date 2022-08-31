@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -37,8 +38,13 @@ public class ChangeService {
 
     @Transactional
     public void deleteUser(User user) {
-        userDao.delete(user);
-        operationDao.deleteOperationsByUserName(user.getUsername());
+        Optional<User> byUsername = userDao.findByUsername(user.getUsername());
+        User user1 = null;
+        if(byUsername.isPresent()){
+            user1 = byUsername.get();
+        }
+        userDao.delete(user1);
+        operationDao.deleteOperationsByUserName(user1.getUsername());
     }
 
     public void deleteOperation(User user) {
@@ -53,30 +59,42 @@ public class ChangeService {
     }
 
     public void addTelephone(String number, User user) {
-        List<Telephone> telephones = user.getTelephones();
-        telephones.add(new Telephone(0, number));
-        user.setTelephones(telephones);
-        userDao.updateUser(user);
+        User user1 = null;
+        Optional<User> byUsername = userDao.findByUsername(user.getUsername());
+        if (byUsername.isPresent()) {
+            user1 = byUsername.get();
+            user1.getTelephones().add(new Telephone(0, number));
+        }
+        userDao.updateUser(user1);
     }
 
     public boolean changeNumber(String oldNumber, String newNumber, User user) {
-        List<Telephone> telephones = user.getTelephones();
+        Optional<User> byUsername = userDao.findByUsername(user.getUsername());
+        User user1 = null;
+        if (byUsername.isPresent()) {
+            user1 = byUsername.get();
+        }
+        List<Telephone> telephones = user1.getTelephones();
         for (Telephone telephone : telephones) {
             if (telephone.getNumber().equals(oldNumber)) {
-               telephones.get(telephones.indexOf(telephone)).setNumber(newNumber);
-               userDao.updateUser(user);
-               return true;
+                telephones.get(telephones.indexOf(telephone)).setNumber(newNumber);
+                userDao.updateUser(user1);
+                return true;
             }
         }
         return false;
     }
 
     public boolean deleteNumber(String number, User user) {
-        List<Telephone> telephones = user.getTelephones();
+        Optional<User> byUsername = userDao.findByUsername(user.getUsername());
+        User user1 = null;
+        if (byUsername.isPresent()) {
+            user1 = byUsername.get();
+        }
+        List<Telephone> telephones = user1.getTelephones();
         for (Telephone telephone : telephones) {
             if (telephone.getNumber().equals(number)) {
                 telephones.remove(telephone);
-                userDao.updateUser(user);
                 userDao.deleteNumber(telephone);
                 return true;
             }

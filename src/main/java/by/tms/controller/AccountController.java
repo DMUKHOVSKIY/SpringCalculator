@@ -3,6 +3,7 @@ package by.tms.controller;
 import by.tms.entity.User;
 import by.tms.model.PasswordModel;
 import by.tms.service.ChangeService;
+import by.tms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,9 @@ import javax.validation.Valid;
 public class AccountController {
     @Autowired
     private ChangeService changeService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping
     public String account() {
@@ -77,7 +81,9 @@ public class AccountController {
     }
 
     @GetMapping("/info")
-    public String information() {
+    public String information(Model model, HttpSession session) {
+        User currentUser = (User) session.getAttribute("currentUser");
+        model.addAttribute("userInfo", userService.findByUsername(currentUser.getUsername()));
         return "info";
     }
 

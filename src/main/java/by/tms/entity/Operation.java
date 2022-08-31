@@ -1,5 +1,6 @@
 package by.tms.entity;
 
+import jdk.jfr.Name;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,6 +12,11 @@ import javax.validation.constraints.NotNull;
 @Data
 @Entity
 @Table(name = "hibernateOperations")
+@NamedQueries({
+        @NamedQuery(name = "Operation.findAllOperationByUsername", query = "select o from Operation o where o.username = :username"),
+        @NamedQuery(name = "Operation.updateNameOfOperations", query = "update Operation o set o.name = :name where o.username = :username"),
+        @NamedQuery(name = "Operation.deleteOperationsByUserName", query = "delete Operation o where o.username = :username")
+})
 public class Operation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
